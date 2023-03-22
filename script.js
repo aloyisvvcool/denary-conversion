@@ -1,6 +1,6 @@
 function convert() {
     let inputNumber = document.getElementById('inputNumber').value;
-    document.getElementById('binaryOutput').innerHTML = parseInt(inputNumber).toString(2).toUpperCase;
+    document.getElementById('binaryOutput').innerHTML = parseInt(inputNumber).toString(2);
     document.getElementById('hexOutput').innerHTML = parseInt(inputNumber).toString(16).toUpperCase();
 
     let romanNumerals = {
