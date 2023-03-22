@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driving Simulator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        canvas {
+            display: block;
+            background-color: #b3d9ff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="simulator" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById("simulator");
+        const ctx = canvas.getContext("2d");
+
+        const car = new Image();
+        car.src = "./assets/car.jpg"; // Replace with your car image path
+
+        let carX = canvas.width / 2;
+        let carY = canvas.height / 2;
+        let carSpeed = 2;
+        let carAngle = 0;
+        let keys = {};
+
+        document.addEventListener("keydown", (e) => {
+            keys[e.code] = true;
+        });
+
+        document.addEventListener("keyup", (e) => {
+            keys[e.code] = false;
+        });
+
+        function update() {
+            if (keys["ArrowUp"]) {
+                carX += carSpeed * Math.cos(carAngle);
+                carY += carSpeed * Math.sin(carAngle);
+            }
+            if (keys["ArrowDown"]) {
+                carX -= carSpeed * Math.cos(carAngle);
+                carY -= carSpeed * Math.sin(carAngle);
+            }
+            if (keys["ArrowLeft"]) {
+                carAngle -= 0.05;
+            }
+            if (keys["ArrowRight"]) {
+                carAngle += 0.05;
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.save();
+            ctx.translate(carX, carY);
+            ctx.rotate(carAngle);
+            ctx.drawImage(car, -car.width / 2, -car.height / 2);
+            ctx.restore();
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        car.onload = () => {
+            gameLoop();
+        }
+    </script>
+</body>
+</html>
